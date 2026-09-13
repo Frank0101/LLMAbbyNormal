@@ -6,13 +6,14 @@ namespace LLMAbbyNormal.Domain.Test.Models.NeuralNetwork;
 public class NeuronTest
 {
     [Fact]
-    public void Constructor_ShouldCreateRequestedNumberOfInputs()
+    public void Constructor_ShouldCreateRequestedInputsAndInitializeBias()
     {
         // Act
         var sut = new Neuron(3, value => value);
 
         // Assert
         Assert.Equal(3, sut.Inputs.Length);
+        Assert.Equal(0.0, sut.Bias);
     }
 
     [Theory]
@@ -39,7 +40,7 @@ public class NeuronTest
     }
 
     [Fact]
-    public void ReceiveValue_WhenAllInputsHaveValues_ShouldEmitActivatedWeightedSumWithBias()
+    public void ReceiveValue_WhenAllInputsHaveValues_ShouldEmitEachResultAndConsumeInputs()
     {
         // Arrange
         var sut = new Neuron(3, value => value * 2.0)
@@ -50,34 +51,24 @@ public class NeuronTest
         sut.Inputs[1].Weight = -1.0;
         sut.Inputs[2].Weight = 2.0;
 
-        double? emittedValue = null;
-        sut.Output.ValueEmitted += value => emittedValue = value;
+        var emittedValues = new List<double>();
+        sut.Output.ValueEmitted += emittedValues.Add;
 
         // Act
         sut.Inputs[0].ReceiveValue(2.0);
         sut.Inputs[1].ReceiveValue(3.0);
         sut.Inputs[2].ReceiveValue(4.0);
+        sut.Inputs[0].ReceiveValue(-2.0);
+        sut.Inputs[1].ReceiveValue(1.0);
+        sut.Inputs[2].ReceiveValue(0.0);
 
         // Assert
-        Assert.Equal(13.0, emittedValue);
-    }
-
-    [Fact]
-    public void ReceiveValue_WhenAllInputsHaveValues_ShouldConsumeAllInputValues()
-    {
-        // Arrange
-        var sut = new Neuron(2, value => value);
-
-        // Act
-        sut.Inputs[0].ReceiveValue(1.0);
-        sut.Inputs[1].ReceiveValue(2.0);
-
-        // Assert
+        Assert.Equal(new[] { 13.0, -3.0 }, emittedValues);
         Assert.All(sut.Inputs, input => Assert.False(input.HasValue));
     }
 
     [Fact]
-    public void ReceiveValue_WhenNotAllInputsHaveValues_ShouldNotEmitValue()
+    public void ReceiveValue_WhenNotAllInputsHaveValues_ShouldNotEmitOrConsumeValue()
     {
         // Arrange
         var sut = new Neuron(2, value => value);
@@ -89,5 +80,6 @@ public class NeuronTest
 
         // Assert
         Assert.False(valueWasEmitted);
+        Assert.True(sut.Inputs[0].HasValue);
     }
 }

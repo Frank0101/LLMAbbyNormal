@@ -8,58 +8,45 @@ public class InputTest
     private readonly Input _sut = new();
 
     [Fact]
-    public void HasValue_WhenCreated_ShouldBeFalse()
+    public void Constructor_ShouldInitializeDefaultState()
     {
         // Assert
         Assert.False(_sut.HasValue);
-    }
-
-    [Fact]
-    public void Weight_WhenCreated_ShouldBeOne()
-    {
-        // Assert
         Assert.Equal(1.0, _sut.Weight);
     }
 
     [Fact]
-    public void ReceiveValue_ShouldRaiseValueReceived()
+    public void ReceiveValue_ShouldStoreValueBeforeRaisingValueReceived()
     {
         // Arrange
-        var wasRaised = false;
-        _sut.ValueReceived += () => wasRaised = true;
+        var hadValueWhenRaised = false;
+        _sut.ValueReceived += () => hadValueWhenRaised = _sut.HasValue;
 
         // Act
         _sut.ReceiveValue(1.0);
 
         // Assert
-        Assert.True(wasRaised);
-    }
-
-    [Fact]
-    public void ReceiveValue_ShouldStoreValue()
-    {
-        // Act
-        _sut.ReceiveValue(1.0);
-
-        // Assert
+        Assert.True(hadValueWhenRaised);
         Assert.True(_sut.HasValue);
     }
 
     [Fact]
-    public void ReceiveValue_WhenValueIsUnconsumed_ShouldThrowInvalidOperationException()
+    public void ReceiveValue_WhenValueIsUnconsumed_ShouldThrowAndPreserveStoredValue()
     {
         // Arrange
         _sut.ReceiveValue(1.0);
 
         // Act
-        var act = () => _sut.ReceiveValue(2.0);
+        var exception = Record.Exception(() => _sut.ReceiveValue(2.0));
+        var storedValue = _sut.ConsumeValue();
 
         // Assert
-        Assert.Throws<InvalidOperationException>(act);
+        Assert.IsType<InvalidOperationException>(exception);
+        Assert.Equal(1.0, storedValue);
     }
 
     [Fact]
-    public void ConsumeValue_ShouldReturnReceivedValue()
+    public void ConsumeValue_ShouldReturnAndClearReceivedValue()
     {
         // Arrange
         _sut.ReceiveValue(1.5);
@@ -69,18 +56,6 @@ public class InputTest
 
         // Assert
         Assert.Equal(1.5, value);
-    }
-
-    [Fact]
-    public void ConsumeValue_ShouldClearStoredValue()
-    {
-        // Arrange
-        _sut.ReceiveValue(1.0);
-
-        // Act
-        _sut.ConsumeValue();
-
-        // Assert
         Assert.False(_sut.HasValue);
     }
 
