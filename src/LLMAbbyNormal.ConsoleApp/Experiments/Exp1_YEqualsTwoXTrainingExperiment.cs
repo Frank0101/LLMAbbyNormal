@@ -2,6 +2,7 @@ using LLMAbbyNormal.Domain.Models.NeuralNetwork;
 
 namespace LLMAbbyNormal.ConsoleApp.Experiments;
 
+// ReSharper disable once InconsistentNaming
 internal static class Exp1_YEqualsTwoXTrainingExperiment
 {
     // Trains one neuron to infer the relationship y = 2x, then checks its prediction

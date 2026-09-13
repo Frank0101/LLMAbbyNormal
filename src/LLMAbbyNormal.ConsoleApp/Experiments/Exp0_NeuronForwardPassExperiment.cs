@@ -2,6 +2,7 @@ using LLMAbbyNormal.Domain.Models.NeuralNetwork;
 
 namespace LLMAbbyNormal.ConsoleApp.Experiments;
 
+// ReSharper disable once InconsistentNaming
 internal static class Exp0_NeuronForwardPassExperiment
 {
     // Demonstrates a forward pass through one neuron. With the identity activation,
