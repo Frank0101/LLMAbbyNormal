@@ -10,6 +10,8 @@ public class Input
     public bool HasValue => _value.HasValue;
     public event Action? ValueReceived;
 
+    public double Weight { get; set; } = 1.0;
+
     public void ReceiveValue(double value)
     {
         if (HasValue)

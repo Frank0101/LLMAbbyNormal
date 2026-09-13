@@ -2,7 +2,7 @@ using LLMAbbyNormal.Domain.Models.NeuralNetwork;
 
 Console.WriteLine("LLM Abby Normal");
 
-var neuron = new Neuron(3);
+var neuron = new Neuron(3, value => value);
 neuron.Output.ValueEmitted += value
     => Console.WriteLine($"Neuron has emitted value: {value}");
 
