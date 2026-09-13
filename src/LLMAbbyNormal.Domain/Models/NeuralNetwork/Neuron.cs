@@ -1,5 +1,9 @@
 namespace LLMAbbyNormal.Domain.Models.NeuralNetwork;
 
+/// <summary>
+/// Consumes weighted input values, applies a bias and activation function,
+/// and emits the result.
+/// </summary>
 public class Neuron
 {
     private readonly Func<double, double> _activationFunction;
