@@ -1,0 +1,22 @@
+## .NET build artifacts
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+[Ll]ogs/
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
+*.sln.DotSettings.user
+*.DotSettings.user
+
+## OS files
+.DS_Store
