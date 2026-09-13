@@ -29,6 +29,10 @@ internal static class Exp1_YEqualsTwoXTrainingExperiment
         // Training phase
         // ---------------
 
+        // This experiment uses supervised learning with full-batch gradient descent:
+        // each epoch measures every training example, averages their gradients, and
+        // then updates the neuron's weight and bias once.
+
         Console.WriteLine();
 
         // Every example follows y = 2x. Including the origin helps the neuron learn
