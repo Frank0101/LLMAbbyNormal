@@ -91,19 +91,19 @@ error, in the limit where $H$ approaches zero:
 
 $$
 \frac{\partial L}{\partial E}
-= \lim_{H \to 0}\frac{L(E+H)-L(E)}{H}
+= \lim_{H \to 0}\frac{L'-L}{H}
 $$
 
 We know that:
 
 $$
-L(E) = \frac{E^2}{2}
+L = \frac{E^2}{2}
 $$
 
-and:
+After increasing $E$ by $H$, the new loss is:
 
 $$
-L(E+H)
+L'
 = \frac{(E+H)^2}{2}
 = \frac{E^2+2EH+H^2}{2}
 $$
@@ -131,16 +131,19 @@ written as $\frac{\partial E}{\partial W}$:
 
 $$
 \frac{\partial E}{\partial W}
-= \lim_{H \to 0}\frac{E(W+H)-E(W)}{H}
+= \lim_{H \to 0}\frac{E'-E}{H}
 $$
 
 We know that:
 
 $$
-\begin{aligned}
-E(W) &= XW+B-Y_e \\
-E(W+H) &= X(W+H)+B-Y_e
-\end{aligned}
+E = XW+B-Y_e
+$$
+
+After increasing $W$ by $H$, the new error is:
+
+$$
+E' = X(W+H)+B-Y_e
 $$
 
 Substitute these expressions into the gradient calculation:
@@ -182,16 +185,19 @@ $\frac{\partial E}{\partial B}$:
 
 $$
 \frac{\partial E}{\partial B}
-= \lim_{H \to 0}\frac{E(B+H)-E(B)}{H}
+= \lim_{H \to 0}\frac{E'-E}{H}
 $$
 
 We know that:
 
 $$
-\begin{aligned}
-E(B) &= XW+B-Y_e \\
-E(B+H) &= XW+(B+H)-Y_e
-\end{aligned}
+E = XW+B-Y_e
+$$
+
+After increasing $B$ by $H$, the new error is:
+
+$$
+E' = XW+(B+H)-Y_e
 $$
 
 Substitute these expressions into the gradient calculation:
